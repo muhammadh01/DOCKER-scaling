@@ -1,0 +1,30 @@
+version: '3'
+
+networks:
+  taco:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.23.0/24
+
+services:
+  reverse-server:
+    image: reverse:v0.1.0
+    ports:
+      - "443:443"
+    expose:
+      - 443
+    networks:
+      - taco
+
+  backend:    
+    image: backend-servers:v0.1.0
+    volumes:
+      - /var/lib/docker/volumes/hunter-site/_data:/var/www/html/*
+    ports:
+      - "80:80"
+    expose:
+      - 80
+    networks:
+      - taco
