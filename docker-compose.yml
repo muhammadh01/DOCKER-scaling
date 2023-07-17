@@ -3,6 +3,7 @@ version: '3'
 volumes:
   conf:
   certbot:
+  site:
 
 services:
   reverse-server:
@@ -24,7 +25,7 @@ services:
           cpus: '0.5'
           memory: 512MB
     volumes:
-      - /var/lib/docker/volumes/hunter-site/_data:/var/www/html/*
+      - site:/var/www/html
     expose:
       - 80
     networks:
