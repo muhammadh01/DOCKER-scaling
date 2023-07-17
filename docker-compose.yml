@@ -1,26 +1,34 @@
 version: '3'
 
-networks:
-  taco:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.23.0/24
+volumes:
+  conf:
+  certbot:
 
 services:
   reverse-server:
     image: reverse:v0.1.0
+    volumes:
+      - certbot:/etc/letsencrypt
+      - conf:/etc/nginx/conf.d
     ports:
       - "80:80"
+      - "443:443"
     networks:
-      - taco
+      - tacoo
 
   backend:    
     image: backend-servers:v0.1.0
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512MB
     volumes:
       - /var/lib/docker/volumes/hunter-site/_data:/var/www/html/*
     expose:
       - 80
     networks:
-      - taco
+      - tacoo
+networks:
+  tacoo:
+    external: true

@@ -7,12 +7,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt install -y \
         nano \
-	nginx  
+	nginx \
+	python3-certbot-nginx 
 
-COPY /conf.d/reverse-ser.conf /etc/nginx/conf.d/
+COPY /conf.d/*.conf /etc/nginx/conf.d/
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY mySite /var/www/html/mySite
-COPY Web /var/www/html/Web
+#COPY mySite /var/www/html/mySite
+#COPY Web /var/www/html/Web
 
 EXPOSE 80/tcp
 EXPOSE 80/udp
