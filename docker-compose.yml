@@ -32,4 +32,3 @@ services:
       - tacoo
 networks:
   tacoo:
-    external: true
